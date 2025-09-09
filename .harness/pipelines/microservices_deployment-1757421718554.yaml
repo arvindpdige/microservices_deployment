@@ -22,6 +22,7 @@ pipeline:
                     shell: Sh
                     command: |-
                       gradle -v
+                      pwd
                       which gradle
                       cd cart-cna-microservice/
                       gradle clean
@@ -47,7 +48,7 @@ pipeline:
                             - <+pipeline.variables.TAG>
                           caching: true
                           dockerfile: /harness/cart-cna-microservice/Dockerfile
-                          context: /harness/cart-cna-microservice/
+                          context: cart-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Product_BuildAndPushDockerRegistry
@@ -59,7 +60,7 @@ pipeline:
                             - <+pipeline.variables.TAG?
                           caching: true
                           dockerfile: /harness/products-cna-microservice/Dockerfile
-                          context: /harness/products-cna-microservice/
+                          context: products-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Store_BuildAndPushDockerRegistry
@@ -71,7 +72,7 @@ pipeline:
                             - <+pipeline.variables.TAG>
                           caching: true
                           dockerfile: /harness/store-ui/Dockerfile
-                          context: /harness/store-ui/
+                          context: store-ui/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Search_BuildAndPushDockerRegistry
@@ -83,7 +84,7 @@ pipeline:
                             - <+pipeline.variables.TAG>
                           caching: true
                           dockerfile: /harness/search-cna-microservice/Dockerfile
-                          context: /harness/search-cna-microservice/
+                          context: search-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Users_BuildAndPushDockerRegistry
@@ -95,7 +96,7 @@ pipeline:
                             - <+pipeline.variables.TAG>
                           caching: true
                           dockerfile: /harness/users-cna-microservice/Dockerfile
-                          context: /harness/users-cna-microservice/
+                          context: users-cna-microservice/
           platform:
             os: Linux
             arch: Amd64
