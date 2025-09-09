@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_microservices_deployment_1757421767204-push-trigger-input-set
+  identifier: Build_microservices_deployment_1757421767204pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: MicroserviceECOMM
+  pipeline:
+    identifier: Build_microservices_deployment_1757421767204
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>

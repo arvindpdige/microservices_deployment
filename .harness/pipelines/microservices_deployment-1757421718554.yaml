@@ -1,0 +1,116 @@
+pipeline:
+  name: Build microservices_deployment
+  identifier: Build_microservices_deployment_1757421767204
+  projectIdentifier: MicroserviceECOMM
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Gradle_Build_with_tests
+                  identifier: Gradle_Build_with_tests
+                  spec:
+                    connectorRef: Dockerhub
+                    image: gradle:8.14.3-jdk17
+                    shell: Sh
+                    command: |-
+                      gradle -v
+                      which gradle
+                      cd cart-cna-microservice/
+                      gradle clean
+                      gradle test
+                      gradle build
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - cart-cna-microservice/build/test-results/**/*.xml
+              - stepGroup:
+                  name: Build Microservices
+                  identifier: Build_Microservices
+                  steps:
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Cart_BuildAndPushDockerRegistry
+                        identifier: Cart_BuildAndPushDockerRegistry
+                        spec:
+                          connectorRef: Dockerhub
+                          repo: arvindpdige/cart
+                          tags:
+                            - <+pipeline.variables.TAG>
+                          caching: true
+                          dockerfile: /harness/cart-cna-microservice/Dockerfile
+                          context: /harness/cart-cna-microservice/
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Product_BuildAndPushDockerRegistry
+                        identifier: Product_BuildAndPushDockerRegistry
+                        spec:
+                          connectorRef: Dockerhub
+                          repo: arvindpdige/products
+                          tags:
+                            - <+pipeline.variables.TAG?
+                          caching: true
+                          dockerfile: /harness/products-cna-microservice/Dockerfile
+                          context: /harness/products-cna-microservice/
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Store_BuildAndPushDockerRegistry
+                        identifier: Store_BuildAndPushDockerRegistry
+                        spec:
+                          connectorRef: Dockerhub
+                          repo: arvindpdige/store
+                          tags:
+                            - <+pipeline.variables.TAG>
+                          caching: true
+                          dockerfile: /harness/store-ui/Dockerfile
+                          context: /harness/store-ui/
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Search_BuildAndPushDockerRegistry
+                        identifier: Search_BuildAndPushDockerRegistry
+                        spec:
+                          connectorRef: Dockerhub
+                          repo: arvindpdie/search
+                          tags:
+                            - <+pipeline.variables.TAG>
+                          caching: true
+                          dockerfile: /harness/search-cna-microservice/Dockerfile
+                          context: /harness/search-cna-microservice/
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Users_BuildAndPushDockerRegistry
+                        identifier: Users_BuildAndPushDockerRegistry
+                        spec:
+                          connectorRef: Dockerhub
+                          repo: arvindpdige/users
+                          tags:
+                            - <+pipeline.variables.TAG>
+                          caching: true
+                          dockerfile: /harness/users-cna-microservice/Dockerfile
+                          context: /harness/users-cna-microservice/
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github
+        repoName: microservices_deployment
+        build: <+input>
+  variables:
+    - name: TAG
+      type: String
+      description: ""
+      required: true
+      value: v1
