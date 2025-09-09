@@ -47,7 +47,7 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/cart-cna-microservice/Dockerfile
+                          dockerfile: cart-cna-microservice/Dockerfile
                           context: cart-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
