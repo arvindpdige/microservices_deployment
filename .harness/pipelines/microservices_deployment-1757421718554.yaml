@@ -79,7 +79,7 @@ pipeline:
                         identifier: Search_BuildAndPushDockerRegistry
                         spec:
                           connectorRef: Dockerhub
-                          repo: arvindpdie/search
+                          repo: arvindpdige/search
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
