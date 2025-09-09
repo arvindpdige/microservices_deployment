@@ -22,6 +22,7 @@ pipeline:
                     shell: Sh
                     command: |-
                       gradle -v
+                      pwd
                       which gradle
                       cd cart-cna-microservice/
                       gradle clean
@@ -46,8 +47,8 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/cart-cna-microservice/Dockerfile
-                          context: /harness/cart-cna-microservice/
+                          dockerfile: cart-cna-microservice/Dockerfile
+                          context: cart-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Product_BuildAndPushDockerRegistry
@@ -56,10 +57,10 @@ pipeline:
                           connectorRef: Dockerhub
                           repo: arvindpdige/products
                           tags:
-                            - <+pipeline.variables.TAG?
+                            - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/products-cna-microservice/Dockerfile
-                          context: /harness/products-cna-microservice/
+                          dockerfile: products-cna-microservice/Dockerfile
+                          context: products-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Store_BuildAndPushDockerRegistry
@@ -70,20 +71,20 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/store-ui/Dockerfile
-                          context: /harness/store-ui/
+                          dockerfile: store-ui/Dockerfile
+                          context: store-ui/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Search_BuildAndPushDockerRegistry
                         identifier: Search_BuildAndPushDockerRegistry
                         spec:
                           connectorRef: Dockerhub
-                          repo: arvindpdie/search
+                          repo: arvindpdige/search
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/search-cna-microservice/Dockerfile
-                          context: /harness/search-cna-microservice/
+                          dockerfile: search-cna-microservice/Dockerfile
+                          context: search-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
                         name: Users_BuildAndPushDockerRegistry
@@ -94,8 +95,8 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/users-cna-microservice/Dockerfile
-                          context: /harness/users-cna-microservice/
+                          dockerfile: users-cna-microservice/Dockerfile
+                          context: users-cna-microservice/
           platform:
             os: Linux
             arch: Amd64
