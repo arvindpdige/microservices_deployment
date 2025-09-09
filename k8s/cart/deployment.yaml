@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart 
+  namespace: ecom-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      containers:
+      - name: cart
+        image: arvindpdige/cart:TAG
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8085
+        resources:
+          requests:
+            memory: "300Mi"
+            cpu: "100m"
+          limits:
+            memory: "500Mi"
+            cpu: "200m"
+        env:
+        - name: SPRING_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cart-secret
+              key: password
+        - name: SPRING_REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: cart-config
+              key: SPRING_REDIS_HOST
+        - name: SPRING_REDIS_PORT
+          value: "6379"
+        
+
+
+

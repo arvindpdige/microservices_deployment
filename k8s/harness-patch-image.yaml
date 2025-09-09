@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: ecom-shop
+spec:
+  template:
+    spec:
+      containers:
+        - name: cart
+          image: arvindpdige/cart:<+pipeline.variables.TAG>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products
+  namespace: ecom-shop
+spec:
+  template:
+    spec:
+      containers:
+        - name: products
+          image: arvindpdige/products:<+pipeline.variables.TAG>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search
+  namespace: ecom-shop
+spec:
+  template:
+    spec:
+      containers:
+        - name: search
+          image: arvindpdige/search:<+pipeline.variables.TAG>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store
+  namespace: ecom-shop
+spec:
+  template:
+    spec:
+      containers:
+        - name: store
+          image: arvindpdige/store:<+pipeline.variables.TAG>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users
+  namespace: ecom-shop
+spec:
+  template:
+    spec:
+      containers:
+        - name: users
+          image: arvindpdige/users:<+pipeline.variables.TAG>

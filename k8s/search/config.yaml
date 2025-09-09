@@ -1,0 +1,7 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: search-config
+  namespace: ecom-shop
+data:
+  discovery.type: "single-node"

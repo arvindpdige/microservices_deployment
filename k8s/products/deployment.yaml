@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products 
+  namespace: ecom-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: products
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+      - name: products
+        image: arvindpdige/products:TAG
+        command: [ "sh", "-c", "echo 'Waiting for MongoDB...'; sleep 10; npm start" ] 
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: products-secret
+              key: mongodb_uri
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: products-config
+              key: database 
+        
+
+
+
