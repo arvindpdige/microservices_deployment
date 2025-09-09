@@ -59,7 +59,7 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG?
                           caching: true
-                          dockerfile: /harness/products-cna-microservice/Dockerfile
+                          dockerfile: products-cna-microservice/Dockerfile
                           context: products-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
@@ -71,7 +71,7 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/store-ui/Dockerfile
+                          dockerfile: store-ui/Dockerfile
                           context: store-ui/
                     - step:
                         type: BuildAndPushDockerRegistry
@@ -83,7 +83,7 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/search-cna-microservice/Dockerfile
+                          dockerfile: search-cna-microservice/Dockerfile
                           context: search-cna-microservice/
                     - step:
                         type: BuildAndPushDockerRegistry
@@ -95,7 +95,7 @@ pipeline:
                           tags:
                             - <+pipeline.variables.TAG>
                           caching: true
-                          dockerfile: /harness/users-cna-microservice/Dockerfile
+                          dockerfile: users-cna-microservice/Dockerfile
                           context: users-cna-microservice/
           platform:
             os: Linux
