@@ -14,11 +14,24 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Echo Welcome Message
-                  identifier: Echo_Welcome_Message
+                  name: Gradle_Build_with_tests
+                  identifier: Gradle_Build_with_tests
                   spec:
+                    connectorRef: Dockerhub
+                    image: gradle:8.14.3-jdk17
                     shell: Sh
-                    command: echo "Welcome to Harness CI"
+                    command: |-
+                      gradle -v
+                      which gradle
+                      cd cart-cna-microservice/
+                      gradle clean
+                      gradle test
+                      gradle build
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - cart-cna-microservice/build/test-results/**/*.xml
           platform:
             os: Linux
             arch: Amd64
