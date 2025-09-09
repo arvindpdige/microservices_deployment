@@ -57,7 +57,7 @@ pipeline:
                           connectorRef: Dockerhub
                           repo: arvindpdige/products
                           tags:
-                            - <+pipeline.variables.TAG?
+                            - <+pipeline.variables.TAG>
                           caching: true
                           dockerfile: products-cna-microservice/Dockerfile
                           context: products-cna-microservice/
