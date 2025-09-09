@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch 
+  namespace: ecom-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: elasticsearch:8.2.3 
+        ports:
+        - containerPort: 9200
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "400Mi"
+            cpu: "200m"
+        env:
+        - name: discovery.type
+          valueFrom:
+            configMapKeyRef:
+              key: discovery.type
+              name: elasticsearch-config
+        - name: xpack.security.enabled
+          valueFrom:
+            configMapKeyRef:
+              key: xpack.security.enabled
+              name: elasticsearch-config
+        - name: ELASTIC_USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-secret
+              key: username
+        - name: ELASTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-secret
+              key: password
+
+
+
+

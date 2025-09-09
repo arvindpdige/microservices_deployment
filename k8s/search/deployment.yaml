@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search 
+  namespace: ecom-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search
+  template:
+    metadata:
+      labels:
+        app: search
+    spec:
+      containers:
+      - name: search
+        image: arvindpdige/search:TAG
+        command: [ "sh", "-c", "echo 'Waiting for MongoDB...'; sleep 10; npm start" ] 
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        env:
+        - name: ELASTIC_URL
+          valueFrom:
+            secretKeyRef:
+              name: search-secret
+              key: elastic_url
+        - name: ELASTIC_USER_NAME
+          valueFrom:  
+            secretKeyRef:
+              name: search-secret
+              key: elastic_user_name
+        - name: ELASTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: search-secret
+              key: elastic_password
+        - name: discovery.type
+          valueFrom:
+            configMapKeyRef:
+              name: search-config
+              key: discovery.type
+
+
+
+        
+
+
+
