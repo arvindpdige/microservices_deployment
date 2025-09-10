@@ -1,0 +1,8 @@
+environment:
+  name: minikube-k8
+  identifier: minikubek8
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: MicroserviceECOMM
