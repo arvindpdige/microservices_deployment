@@ -103,6 +103,12 @@ pipeline:
           runtime:
             type: Docker
             spec: {}
+          caching:
+            enabled: true
+            paths: []
+          buildIntelligence:
+            enabled: true
+        description: ""
   properties:
     ci:
       codebase:
