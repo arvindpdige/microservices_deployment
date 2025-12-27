@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: minikube
+  identifier: minikube
+  orgIdentifier: default
+  projectIdentifier: MicroserviceECOMM
+  environmentRef: minikubek8
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: minikubeconnector
+    namespace: ecom-shop
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: true
